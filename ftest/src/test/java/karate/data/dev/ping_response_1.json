@@ -1,0 +1,8 @@
+{
+	"pingResponse": {
+    	"summary": {
+      		"serviceName": "mule4_template_mvp1_url-v1-uw2-dv",
+     		"status": "Alive"
+    	}
+  	}
+}

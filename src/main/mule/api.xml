@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:eilog="http://www.mulesoft.org/schema/mule/eilog" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/eilog http://www.mulesoft.org/schema/mule/eilog/current/mule-eilog.xsd">
+    <flow name="apiFlow" doc:id="97b40641-4905-4b72-b450-b7a3e5214a85">
+        <http:listener doc:name="Listener" doc:id="9ac8b1f5-758b-4d81-a9a8-de7d1b7ddd79" config-ref="HTTP_Listener_config" path="/api/*" />
+        <eilog:log doc:name="Log flow starts" doc:id="50383bfb-5008-4f25-9406-f28be3c69e8e" msg='#["Incoming call"]'/>
+		<apikit:router doc:name="APIkit Router" doc:id="7ba96910-744c-4796-9f2e-5212c8085bd3" config-ref="Router" />
+    </flow>
+    <flow name="apiConsoleFlow" doc:id="afe95f0c-83b9-44c6-9750-0fb4d79c82a6">
+        <http:listener doc:name="Listener" doc:id="11a2022a-b5d7-4f12-9bf5-d9280bcec8a5" config-ref="HTTP_Listener_config" path="/console/*" />
+        <apikit:console doc:name="APIkit Console" doc:id="c413339c-c345-4ce1-8ca4-ad0ee4f44f17" config-ref="Router" />
+    </flow>
+    <flow name="get:\ping:Router">
+		<eilog:log doc:name="Log" doc:id="21484a1a-e3d2-4865-a3cc-55b8a771214a" msg="Ping call"/>
+		<flow-ref doc:name="pingFlow" doc:id="4d552a8c-dce6-4953-b56d-8f272eaed2e5" name="pingFlow"/>
+    </flow>
+    <flow name="get:\template:Router">
+		<eilog:log doc:name="Log" doc:id="e00fa530-4790-4de1-9a30-be198073b6dc" msg="Example call"/>
+		<flow-ref doc:name="exampleFlow" doc:id="017ef003-e67e-4e4d-8182-ccb0e3eb8314" name="exampleFlow"/>
+    </flow>
+</mule>

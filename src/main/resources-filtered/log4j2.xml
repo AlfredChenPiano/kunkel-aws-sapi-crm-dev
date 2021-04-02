@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" name="cloudhub" packages="com.mulesoft.ch.logging.appender,
+com.sfdc.bt.ei.log4j">
+
+  <!--These are some of the loggers you can enable. There are several more you can find in the documentation. Besides this 
+    log4j configuration, you can also use Java VM environment variables to enable other logs like network (-Djavax.net.debug=ssl 
+    or all) and Garbage Collector (-XX:+PrintGC). These will be append to the console, so you will see them in the mule_ee.log 
+    file. -->
+
+  <Appenders>
+   <RollingFile name="FILE"
+      fileName="/opt/mule/mule-CURRENT/logs/mule-${sys:domain}.log"
+      filePattern="/opt/mule/mule-CURRENT/logs/mule-${sys:domain}-%i.log">
+      <PatternLayout pattern="[%d{MM-dd HH:mm:ss.SSS}] %-5p %c{1} [%t]: %m%n"/>
+      <DefaultRolloverStrategy max="10"/>
+      <Policies>
+        <SizeBasedTriggeringPolicy size="10 MB" />
+      </Policies>
+    </RollingFile>
+    <Log4J2CloudhubLogAppender name="CLOUDHUB" addressProvider="com.mulesoft.ch.logging.DefaultAggregatorAddressProvider"
+      applicationContext="com.mulesoft.ch.logging.DefaultApplicationContext" appendRetryIntervalMs="${sys:logging.appendRetryInterval}"
+      appendMaxAttempts="${sys:logging.appendMaxAttempts}" batchSendIntervalMs="${sys:logging.batchSendInterval}"
+      batchMaxRecords="${sys:logging.batchMaxRecords}" memBufferMaxSize="${sys:logging.memBufferMaxSize}"
+      journalMaxWriteBatchSize="${sys:logging.journalMaxBatchSize}" journalMaxFileSize="${sys:logging.journalMaxFileSize}"
+      clientMaxPacketSize="${sys:logging.clientMaxPacketSize}" clientConnectTimeoutMs="${sys:logging.clientConnectTimeout}"
+      clientSocketTimeoutMs="${sys:logging.clientSocketTimeout}" serverAddressPollIntervalMs="${sys:logging.serverAddressPollInterval}"
+      serverHeartbeatSendIntervalMs="${sys:logging.serverHeartbeatSendIntervalMs}" statisticsPrintIntervalMs="${sys:logging.statisticsPrintIntervalMs}">
+      <PatternLayout pattern="[%d{MM-dd HH:mm:ss}] %-5p %c{1} [%t] CUSTOM: %m%n" />
+    </Log4J2CloudhubLogAppender>
+    <Firehose name="firehoseInfo">
+      <PatternLayout pattern="%-5p %d [%t] %c: %m%n"/>
+      
+      <deliveryStreamName>${sys:splunk.aws.firehose.deliveryStream}</deliveryStreamName>
+      <awsFirehoseAccessKeyId>${sys:splunk.aws.firehose.accessKeyId}</awsFirehoseAccessKeyId>
+      <awsFirehoseSecretKey>${sys:splunk.aws.firehose.secretKey}</awsFirehoseSecretKey>
+      <splunkIndex>${sys:splunk.index}</splunkIndex>
+
+      <sourceApi>${sys:cloudhub.api.name}</sourceApi>
+      <sourceApiVersion>${version}</sourceApiVersion>
+      <cloudhubEnvironment>${sys:cloudhub.environment}</cloudhubEnvironment>
+      <tags></tags>
+
+      <Region>${sys:splunk.aws.firehose.region}</Region>
+      <MaxRetries>${sys:splunk.aws.firehose.maxRetries}</MaxRetries>
+      <BufferSize>${sys:splunk.aws.firehose.bufferSize}</BufferSize>
+      <MaxPutRecordDelay>${sys:splunk.aws.firehose.maxPutRecordDelay}</MaxPutRecordDelay>
+
+      <Filters>
+        <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+      </Filters>
+    </Firehose>
+
+    <Firehose name="firehoseTrace">
+      <PatternLayout pattern="%-5p %d [%t] %c: %m%n"/>
+      
+      <deliveryStreamName>${sys:splunk.aws.firehose.deliveryStream}</deliveryStreamName>
+      <awsFirehoseAccessKeyId>${sys:splunk.aws.firehose.accessKeyId}</awsFirehoseAccessKeyId>
+      <awsFirehoseSecretKey>${sys:splunk.aws.firehose.secretKey}</awsFirehoseSecretKey>
+      <splunkIndex>${sys:splunk.index.trace}</splunkIndex>
+
+      <sourceApi>${sys:cloudhub.api.name}</sourceApi>
+      <sourceApiVersion>${version}</sourceApiVersion>
+      <cloudhubEnvironment>${sys:cloudhub.environment}</cloudhubEnvironment>
+      <tags></tags>
+
+      <Region>${sys:splunk.aws.firehose.region}</Region>
+      <MaxRetries>${sys:splunk.aws.firehose.maxRetries}</MaxRetries>
+      <BufferSize>${sys:splunk.aws.firehose.bufferSize}</BufferSize>
+      <MaxPutRecordDelay>${sys:splunk.aws.firehose.maxPutRecordDelay}</MaxPutRecordDelay>
+
+      <Filters>
+        <LevelRangeFilter minLevel="DEBUG" maxLevel="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
+      </Filters>
+    </Firehose>
+  </Appenders>
+  <Loggers>
+    <AsyncRoot level="INFO">
+      <AppenderRef ref="FILE"/>
+      <AppenderRef ref="CLOUDHUB"/>
+
+      <AppenderRef ref="firehoseInfo" />
+      <AppenderRef ref="firehoseTrace" />
+
+    </AsyncRoot>
+    <!-- All Error related logs -->
+    <AsyncLogger name="com.gigaspaces" level="ERROR" />
+    <AsyncLogger name="com.j_spaces" level="ERROR" />
+    <AsyncLogger name="com.sun.jini" level="ERROR" />
+    <AsyncLogger name="net.jini" level="ERROR" />
+    <!-- All Warning related logs -->
+    <AsyncLogger name="org.mule.module.http.internal.HttpMessageLogger" level="WARN" />
+    <AsyncLogger name="com.mulesoft.mule.transport.jdbc" level="WARN" />
+    <AsyncLogger name="org.apache" level="WARN" />
+    <AsyncLogger name="org.apache.cxf" level="WARN" />
+    <AsyncLogger name="org.jetel" level="WARN" />
+    <AsyncLogger name="Tracking" level="WARN" />
+    <!-- All INFO related logs -->
+    <AsyncLogger name="com.amazonaws" level="INFO"/>
+    <AsyncLogger name="org.mule" level="INFO" />
+    <AsyncLogger name="com.mulesoft" level="INFO" />
+    <!-- Override Package Logs -->
+    <AsyncLogger name="${sys:logname}" level="INFO" />
+  </Loggers>
+</Configuration>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>target/karate.log</file>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <logger name="org.apache.velocity" level="${KARATE_DEPENDENCY_LOG_LEVEL}" />
+  <logger name="com.jayway.jsonpath" level="${KARATE_DEPENDENCY_LOG_LEVEL}" />
+  <logger name="o.a.h" level="${KARATE_DEPENDENCY_LOG_LEVEL}" />
+  <!-- DO NOT MODIFY BLOCK START -->
+  <!-- If no values is provided for the log level it will assume the debug level. From the pipeline automation script INFO 
+    will be passed as the default level. For the development purpose if you need to modify the log level then pass the log level 
+    as run time argument. -->
+  <logger name="com.intuit.karate" level="${KARATE_LOG_LEVEL}" />
+  <logger name="org.apache.http.headers" level="${APACHE_HTTP_LOG_LEVEL}" />
+  <logger name="org.apache.http.wire" level="${APACHE_HTTP_LOG_LEVEL}" />
+  <root level="${KARATE_LOG_LEVEL}">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </root>
+  <!-- DO NOT MODIFY BLOCK END -->
+</configuration>

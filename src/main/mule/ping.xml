@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:eilog="http://www.mulesoft.org/schema/mule/eilog" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/eilog http://www.mulesoft.org/schema/mule/eilog/current/mule-eilog.xsd">
+	<flow name="pingFlow" doc:id="00f865ae-496a-4677-b9c8-a8acd8ecd603" >
+		<http:listener doc:name="GET: /ping" doc:id="73ef0826-a20a-4a38-9c12-ec2d2a71cd1b" config-ref="HTTP_Listener_config" path="/ping"/>
+		<ee:transform doc:name="status200" doc:id="a8670a29-df58-4bfb-8a50-b506278f9730" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"status": "alive",
+	"httpStatus": 200
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<eilog:debug doc:name="Log flow complete" doc:id="de87bc03-c3e4-4983-a45b-019ebb24f22b" msg='#["Ping flow complete"]' />
+	</flow>
+</mule>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+
+
+	<parent>
+		<groupId>com.sfdc.it.ei.mule4.build</groupId>
+		<artifactId>ei-mule4-parent</artifactId>
+		<version>1.0.27</version>
+	</parent>
+
+	<groupId>com.sfdc.it.ei.plt.mule4.api</groupId>
+	<artifactId>kunkel-aws-sapi-crm-dev</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>mule-application</packaging>
+	<name>kunkel-aws-sapi-crm-dev</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<app.runtime>4.3.0</app.runtime>
+		<mule.maven.plugin.version>3.3.5</mule.maven.plugin.version>
+		<munit.version>2.2.4</munit.version>
+		<ei.esb.framework.version>4.2.64</ei.esb.framework.version>
+	</properties>
+
+	<scm>
+		<connection>${scm.connectionbase}/kunkel-aws-sapi-crm-dev.git</connection>
+		<url>${scm.urlbase}/kunkel-aws-sapi-crm-dev</url>
+		<developerConnection>${scm.connectionbase}/kunkel-aws-sapi-crm-dev.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<repositories>
+		<repository>
+			<id>mulesoft-releases</id>
+			<name>MuleSoft Repository</name>
+			<url>http://repository.mulesoft.org/releases/</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>mulesoft-snapshots</id>
+			<name>MuleSoft Snapshot Repository</name>
+			<url>http://repository.mulesoft.org/snapshots/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.mule.tools.maven</groupId>
+				<artifactId>mule-maven-plugin</artifactId>
+				<version>${mule.maven.plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<classifier>mule-application</classifier>
+					<cloudHubDeployment>
+		          		<properties>
+		         	    <!-- Add all secure properties related to cicd lite here -->
+		          		</properties>
+		        	</cloudHubDeployment>
+                </configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.mulesoft.munit.tools</groupId>
+				<artifactId>munit-maven-plugin</artifactId>
+				<version>${munit.version}</version>
+				<executions>
+					<execution>
+						<id>test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+							<goal>coverage-report</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<runtimeVersion>${runtime.version}</runtimeVersion>
+					<coverage>
+						<runCoverage>true</runCoverage>
+						<formats>
+							<format>html</format>
+							<format>console</format>
+						</formats>
+					</coverage>
+					<skipMunitTests>false</skipMunitTests>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.mule.connectors</groupId>
+			<artifactId>mule-sockets-connector</artifactId>
+			<version>1.1.5</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mulesoft.modules</groupId>
+			<artifactId>mule-secure-configuration-property-module</artifactId>
+			<version>1.2.2</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mule.connectors</groupId>
+			<artifactId>mule-objectstore-connector</artifactId>
+			<version>1.1.5</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+
+		
+
+	</dependencies>
+</project>

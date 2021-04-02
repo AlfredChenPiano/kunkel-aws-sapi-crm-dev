@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:eilog="http://www.mulesoft.org/schema/mule/eilog" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd
+http://www.mulesoft.org/schema/mule/eilog http://www.mulesoft.org/schema/mule/eilog/current/mule-eilog.xsd">
+	<flow name="exampleFlow" doc:id="803c7414-bb35-4664-b44f-c355d46190e7" >
+		<set-variable value="${mule.env}" doc:name="Set environment Variable" doc:id="c2a0f078-f6d7-49d4-b291-7548ce6146c5" variableName="env"/>
+		<choice doc:name="depending on the env variable" doc:id="a3614b97-91dd-4696-8fd5-436ce1694ba5" >
+			<when expression='#[vars.env == "dev"]'>
+				<set-payload value="#['Hello to the Mule template! - DEV']" doc:name="Welcome message dev" doc:id="207a1d9f-222d-4ce8-9ed1-971b84d88dbb" />
+			</when>
+			<when expression='#[vars.env == "prod"]'>
+				<set-payload value="#['Hello to the Mule template! - PROD']" doc:name="Welcome message prod" doc:id="2fc20298-c4ec-4cd3-981e-65fb10e05064" />
+			</when>
+			<otherwise >
+				<set-payload value="#['Hello to the Mule template!']" doc:name="Welcome message" doc:id="bf34f4d0-bfbc-4100-88b5-b9f01d74d74a" />
+			</otherwise>
+		</choice>
+		<eilog:debug doc:name="Log internal message" doc:id="a73b522e-168d-4205-a5ea-448b54151f41" msg='#["Example flow complete"]'/>
+	</flow>
+</mule>

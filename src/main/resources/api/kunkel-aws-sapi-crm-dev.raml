@@ -1,0 +1,23 @@
+#%RAML 1.0
+version: 0.1
+title: mule4-template-mvp1
+
+/template:
+  get:
+    description: Sample endpoint.
+    responses:
+      200:
+        body:
+          application/json:
+            example: "Hello to the Mule template! - DEV"
+
+/ping:
+  get:
+    description: Return a standard response to validate that the service is up and running.
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/ping/get-response.json
+
+

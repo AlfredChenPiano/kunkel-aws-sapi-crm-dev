@@ -1,0 +1,46 @@
+# Master test suite for all the swim lanes.KARATE is currently supported framework for test execution.
+# List of environments
+# qa environment
+- name: dev
+    # test_properties_secure_key: <custom key name>
+    # By default the test secret properties will be loaded from the cps with key value repo_name-anytest_<env>.  
+    # Ex: For ei-sapi-worker-proxy the test setup properties will be loaded from ei-sapi-worker-proxy-anytest-qa
+    # for qa deployment.
+    # For muti application the swimlane name and the app name will be diffrent than the repo name.For such instance 
+    # uncomment the secure_keys and non secure_keys and use the custome keys as required.                                         
+  test_suites:
+    - type: functional_testing
+      plugin: karate
+      tags: dev
+      enabled: true
+      configuration:
+        #secure_keys:
+        #non_secure_keys:
+      # Mock systems can be used as  test doouble to mock the actual system under test or any other dependent 
+      # service required for additional verification. This should be used for only the lower enviroments.
+      # Based on the project specific requirments either one or more mock system can be enabled.
+      mock_systems:
+        - service_name: kunkel-aws-sapi-crm-dev
+          url_var: kunkel-aws-sapi-crm-dev_url
+          mock_file: features/kunkel-aws-sapi-crm-dev-mock.feature
+          type: https
+          dependency_type: external
+          enabled: true
+# qa environment
+- name: qa
+    # test_properties_secure_key: <custom key name>
+    # By default the test secret properties will be loaded from the cps with key value repo_name-anytest_<env>.  
+    # Ex: For ei-sapi-worker-proxy the test setup properties will be loaded from ei-sapi-worker-proxy-anytest-qa
+    # for qa deployment.
+    # For muti application the swimlane name and the app name will be diffrent than the repo name.For such instance 
+    # uncomment the secure_keys and non secure_keys and use the custome keys as required.                                         
+  test_suites:
+    - type: functional_testing
+      plugin: karate
+      tags: qa
+      enabled: false
+      configuration:
+        #secure_keys:
+        #non_secure_keys:
+       
+

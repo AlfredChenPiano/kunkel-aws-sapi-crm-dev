@@ -1,0 +1,115 @@
+{
+  "apiName": "kunkel-aws-sapi-crm-dev",
+  "businessGroup": "ei_mule_c4e",
+  "isCPSRequired":"false",
+  "deployments": [
+    {
+      "envSuffix": "dv",
+      "domain": "",
+      "cloudHubEnvironment": "EI-PL-DEV",
+      "appInfoJson": {
+        "muleVersion" : {
+          "version" : "4.3.0"
+        },
+        "region" : "us-west-2",
+        "workers" : {
+          "amount" : 1,
+          "type" : {
+            "name" : "SMALL",
+            "cpu" : "0.2"
+          }
+        }
+      }
+    },
+    {
+      "envSuffix": "qa",
+      "domain": "",
+      "cloudHubEnvironment": "EI-PL-QA",
+      "appInfoJson": {
+        "muleVersion" : {
+          "version" : "4.3.0"
+        },
+        "region" : "us-west-2",
+        "workers" : {
+          "amount" : 1,
+          "type" : {
+            "name" : "SMALL",
+            "cpu" : "0.1"
+          }
+        }
+      }
+    },
+    {
+      "envSuffix": "pf",
+      "domain": "",
+      "cloudHubEnvironment": "EI-PL-PERF",
+      "appInfoJson": {
+        "muleVersion" : {
+          "version" : "4.3.0"
+        },
+        "region" : "us-west-2",
+        "workers" : {
+          "amount" : 2,
+          "type" : {
+            "name" : "LARGE",
+            "cpu" : "2"
+          }
+        }
+      }
+    },
+     {
+      "envSuffix": "ee",
+      "domain": "",
+      "cloudHubEnvironment": "EI-PL-E2E",
+      "appInfoJson": {
+        "muleVersion" : {
+          "version" : "4.3.0"
+        },
+        "region" : "us-west-2",
+        "workers" : {
+          "amount" : 1,
+          "type" : {
+            "name" : "SMALL",
+            "cpu" : "0.1"
+          }
+        }
+      }
+    },
+    {
+      "envSuffix": "ut",
+      "domain": "",
+      "cloudHubEnvironment": "EI-PL-UAT",
+      "appInfoJson": {
+        "muleVersion" : {
+          "version" : "4.3.0"
+        },
+        "region" : "us-west-2",
+        "workers" : {
+          "amount" : 1,
+          "type" : {
+            "name" : "SMALL",
+            "cpu" : "0.1"
+          }
+        }
+      }
+    },
+     {
+      "envSuffix": "pd",
+      "domain": "",
+      "cloudHubEnvironment": "EI-PL-PROD",
+      "appInfoJson": {
+        "muleVersion" : {
+          "version" : "4.3.0"
+        },
+        "region" : "us-west-2",
+        "workers" : {
+          "amount" : 4,
+          "type" : {
+            "name" : "LARGE",
+            "cpu" : "2"
+          }
+        }
+      }
+    }
+  ]
+}
